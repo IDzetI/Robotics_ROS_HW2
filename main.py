@@ -25,18 +25,27 @@ joints = [joint(0, np.array([0,0,1]), [-180,180], [0,1]),
           ]
 
 arkodim = robot(links,joints)
-T = forward_kinematics(np.array([deg_to_rad(0), deg_to_rad(0), deg_to_rad(0), deg_to_rad(0), deg_to_rad(0), deg_to_rad(0)]), arkodim)
-inverse_kinematics(T)
-#print (T)
+T = forward_kinematics(np.array([deg_to_rad(45), deg_to_rad(-45), deg_to_rad(-45), deg_to_rad(45), deg_to_rad(0), deg_to_rad(-45)]), arkodim)
+print ("T = ")
+print (T)
+print ()
+q = inverse_kinematics(T)
+print ("joints")
+print ([i / math.pi * 180 for i in q])
+print ()
+T1 = forward_kinematics(np.array(q), arkodim)
+print ("T1 = ")
+print (T1)
+print ()
 #print(np.matmul(T,np.array([0,0,0,1]))[0:3])
-
-
-'''
+print ()
+print ()
 pi = math.pi
-angles  = [pi/3,pi/6,pi/2]
-
+angles  = [-pi/3,pi/6,pi/2]
+'''
 R = eulerAnglesXYXToRotationMatrix(angles)
 print(R)
 print()
 print(angles)
-print(RMatrixXYXToEulerAngles(R))'''
+print(RMatrixXYXToEulerAngles(R))
+'''

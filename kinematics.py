@@ -41,25 +41,25 @@ def T03(q):
 
     y[0] = (- 180 * c1 + 370 * c1 * s2 + 435.5 * (c1 * s2 * c3 + c1 * c2 * s3)) - d[0]
     y[1] = (- 180 * s1 + 370 * s1 * s2 + 435.5 * (s1 * s2 * c3 + s1 * c2 * s3)) - d[1]
-    y[2] = (357 + 370 * c2 * 435.5 * (c2 * c3 - s2 * s3)) - d[2]
+    y[2] = (357 + 370 * c2 + 435.5 * (c2 * c3 - s2 * s3)) - d[2]
     return y
 
 def inverse_kinematics(T):
     global d
-    global R03
 
-    print(T)
-
-    d = np.matmul(T, [0, 0, -124, 1])
+    T0 = np.dot(T, np.linalg.inv(np.array([[1,0,0,0],[0,1,0,0],[0,0,1,124],[0,0,0,1]])))
+    d = T0[0:3,3]
     q123 = fsolve(T03, [0, 0, 0])
-    R03 = eulerAnglesZYYToRotationMatrix(q123)
-    R36 = np.matmul(np.linalg.inv(R03),T[0:3,0:3])
-    q456 = RMatrixZYZToEulerAngles(R36)
 
+    R03 = eulerAnglesZYYToRotationMatrix(q123)
+    R36 = np.matmul(np.linalg.inv(R03),T0[0:3,0:3])
+    q456 = RMatrixZYZToEulerAngles(R36)
+    return [q123[0],q123[1],q123[2],q456[0],q456[1],q456[2]]
+    '''
     print("q1 = " + str(q123[0] / math.pi * 180))
     print("q2 = " + str(q123[1] / math.pi * 180))
     print("q3 = " + str(q123[2] / math.pi * 180))
     print("q4 = " + str(q456[0] / math.pi * 180))
     print("q5 = " + str(q456[1] / math.pi * 180))
-    print("q6 = " + str(q456[2] / math.pi * 180))
+    print("q6 = " + str(q456[2] / math.pi * 180))'''
 
