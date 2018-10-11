@@ -2,11 +2,6 @@
 
 Robot has 6 revolute joints and 6 links.
 
-![Image alt](https://github.com/IDzetI/Robotics_ROS_HW2/blob/master/pictures/arkodim1.jpg)
-![Image alt](https://github.com/IDzetI/Robotics_ROS_HW2/blob/master/pictures/arkodim2.jpg)
-![Image alt](https://github.com/IDzetI/Robotics_ROS_HW2/blob/master/pictures/arkodim3.jpg)
-![Image alt](https://github.com/IDzetI/Robotics_ROS_HW2/blob/master/pictures/arkodim4.jpg) 
-
 1st joint is rotating around z-axis with limit [-180; 180]\
 2nd joint is rotating around y-axis with limit [-138; 64]\
 3rd joint is rotating around y-axis with limit [-124; 124]\

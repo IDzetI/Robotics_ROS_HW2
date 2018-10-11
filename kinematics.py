@@ -3,14 +3,12 @@ from scipy.optimize import fsolve
 import robot
 import numpy as np
 import math
+from euler_angles import *
 
-from euler_angles import eulerAnglesToRotationMatrix, eulerAnglesZYYToRotationMatrix, eulerAnglesZYZToRotationMatrix, \
-    RMatrixZYZToEulerAngles
-
-
+#solve forward kinematics fo robot
 def forward_kinematics(q, r):
     k = 0
-    T = np.eye((4))
+    T = np.eye(4)
     while k != -1:
         R = eulerAnglesToRotationMatrix(r.get_joint_asix(k) * r.check_limit(k, q[k]))
         P = np.transpose(r.get_link_translation(k))
@@ -24,10 +22,9 @@ def forward_kinematics(q, r):
 
         T = np.matmul(T, H)
         k = r.get_parent(k)
-
     return T
 
-
+#calculate matrix T03
 def T03(q):
     global d
     y = np.empty(3)
@@ -44,6 +41,7 @@ def T03(q):
     y[2] = (357 + 370 * c2 + 435.5 * (c2 * c3 - s2 * s3)) - d[2]
     return y
 
+#solve invert kinematics fo robot
 def inverse_kinematics(T):
     global d
 
@@ -55,11 +53,5 @@ def inverse_kinematics(T):
     R36 = np.matmul(np.linalg.inv(R03),T0[0:3,0:3])
     q456 = RMatrixZYZToEulerAngles(R36)
     return [q123[0],q123[1],q123[2],q456[0],q456[1],q456[2]]
-    '''
-    print("q1 = " + str(q123[0] / math.pi * 180))
-    print("q2 = " + str(q123[1] / math.pi * 180))
-    print("q3 = " + str(q123[2] / math.pi * 180))
-    print("q4 = " + str(q456[0] / math.pi * 180))
-    print("q5 = " + str(q456[1] / math.pi * 180))
-    print("q6 = " + str(q456[2] / math.pi * 180))'''
+
 
